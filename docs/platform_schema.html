@@ -1,0 +1,314 @@
+<style>
+:root {
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f8f9fa;
+  --color-border-secondary: #ced4da;
+  --color-border-tertiary: #e9ecef;
+  --color-text-primary: #212529;
+  --color-text-secondary: #495057;
+  --color-text-tertiary: #868e96;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+*{box-sizing:border-box; font-family: var(--font-sans);}
+.wpr{overflow:auto;border-radius:10px;border:0.5px solid var(--color-border-tertiary);background:var(--color-background-primary)}
+.cvs{position:relative;width:840px}
+.t{position:absolute;width:182px;border-radius:8px;overflow:hidden;border:1px solid var(--color-border-secondary);background:var(--color-background-primary)}
+.th{padding:6px 10px;font-size:11.5px;font-weight:500;border-bottom:1px solid var(--color-border-tertiary);background:var(--color-background-secondary);color:var(--color-text-primary)}
+.f{display:flex;justify-content:space-between;align-items:center;padding:3px 8px;font-size:10px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.f:last-child{border:none}
+.fn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--color-text-primary)}
+.fn.pk{font-weight:500;text-decoration:underline;text-underline-offset:2px}
+.fn.fk{font-style:italic;color:var(--color-text-secondary)}
+.ft{font-size:9px;color:var(--color-text-tertiary);white-space:nowrap;margin-left:4px;flex-shrink:0}
+.leg{display:flex;flex-wrap:wrap;gap:6px 16px;padding:10px 14px;background:var(--color-background-secondary);font-size:11px;border-top:0.5px solid var(--color-border-tertiary);align-items:center;color:var(--color-text-secondary)}
+</style>
+
+<div class="wpr">
+<div class="cvs" id="cv">
+<svg id="sv" style="position:absolute;top:0;left:0;pointer-events:none;overflow:visible" width="840" height="960">
+<defs id="defs"></defs>
+</svg>
+
+<!-- USERS -->
+<div id="U" class="t" style="left:320px;top:16px">
+<div class="th">USERS</div>
+<div class="f"><span class="fn pk">id</span><span class="ft">uuid PK</span></div>
+<div class="f"><span class="fn">name</span><span class="ft">varchar</span></div>
+<div class="f"><span class="fn">email</span><span class="ft">varchar unique</span></div>
+<div class="f"><span class="fn">password_hash</span><span class="ft">varchar</span></div>
+<div class="f"><span class="fn">role</span><span class="ft">enum(student,mentor)</span></div>
+<div class="f"><span class="fn">created_at</span><span class="ft">timestamp</span></div>
+</div>
+
+<!-- NOTIF_SETTINGS -->
+<div id="NS" class="t" style="left:550px;top:16px;width:190px;">
+<div class="th">NOTIFICATION_SETTINGS</div>
+<div class="f"><span class="fn pk fk">user_id</span><span class="ft">FK → USERS</span></div>
+<div class="f"><span class="fn">assignment_due</span><span class="ft">bool</span></div>
+<div class="f"><span class="fn">live_session</span><span class="ft">bool</span></div>
+<div class="f"><span class="fn">grade_feedback</span><span class="ft">bool</span></div>
+<div class="f"><span class="fn">qa_replies</span><span class="ft">bool</span></div>
+<div class="f"><span class="fn">email_digest</span><span class="ft">bool</span></div>
+</div>
+
+<!-- COURSES -->
+<div id="CO" class="t" style="left:16px;top:200px">
+<div class="th">COURSES</div>
+<div class="f"><span class="fn pk">id</span><span class="ft">uuid PK</span></div>
+<div class="f"><span class="fn fk">mentor_id</span><span class="ft">FK → USERS</span></div>
+<div class="f"><span class="fn">title</span><span class="ft">varchar</span></div>
+<div class="f"><span class="fn">language</span><span class="ft">enum</span></div>
+<div class="f"><span class="fn">difficulty</span><span class="ft">enum</span></div>
+<div class="f"><span class="fn">is_published</span><span class="ft">bool</span></div>
+<div class="f"><span class="fn">created_at</span><span class="ft">timestamp</span></div>
+</div>
+
+<!-- ENROLLMENTS -->
+<div id="EN" class="t" style="left:218px;top:200px">
+<div class="th">ENROLLMENTS</div>
+<div class="f"><span class="fn pk">id</span><span class="ft">uuid PK</span></div>
+<div class="f"><span class="fn fk">student_id</span><span class="ft">FK → USERS</span></div>
+<div class="f"><span class="fn fk">course_id</span><span class="ft">FK → COURSES</span></div>
+<div class="f"><span class="fn">progress_pct</span><span class="ft">float</span></div>
+<div class="f"><span class="fn">completed</span><span class="ft">bool</span></div>
+<div class="f"><span class="fn">enrolled_at</span><span class="ft">timestamp</span></div>
+</div>
+
+<!-- DISCUSSION_THREADS -->
+<div id="DT" class="t" style="left:424px;top:200px">
+<div class="th">DISCUSSION_THREADS</div>
+<div class="f"><span class="fn pk">id</span><span class="ft">uuid PK</span></div>
+<div class="f"><span class="fn fk">course_id</span><span class="ft">FK → COURSES</span></div>
+<div class="f"><span class="fn fk">author_id</span><span class="ft">FK → USERS</span></div>
+<div class="f"><span class="fn">title</span><span class="ft">varchar</span></div>
+<div class="f"><span class="fn">status</span><span class="ft">enum(open,resolved)</span></div>
+<div class="f"><span class="fn">created_at</span><span class="ft">timestamp</span></div>
+</div>
+
+<!-- LIVE_SESSIONS -->
+<div id="LS" class="t" style="left:632px;top:200px">
+<div class="th">LIVE_SESSIONS</div>
+<div class="f"><span class="fn pk">id</span><span class="ft">uuid PK</span></div>
+<div class="f"><span class="fn fk">course_id</span><span class="ft">FK → COURSES</span></div>
+<div class="f"><span class="fn fk">mentor_id</span><span class="ft">FK → USERS</span></div>
+<div class="f"><span class="fn">title</span><span class="ft">varchar</span></div>
+<div class="f"><span class="fn">join_url</span><span class="ft">varchar</span></div>
+<div class="f"><span class="fn">scheduled_at</span><span class="ft">timestamp</span></div>
+<div class="f"><span class="fn">status</span><span class="ft">enum(sched,live,ended)</span></div>
+</div>
+
+<!-- LESSONS -->
+<div id="LE" class="t" style="left:16px;top:448px">
+<div class="th">LESSONS</div>
+<div class="f"><span class="fn pk">id</span><span class="ft">uuid PK</span></div>
+<div class="f"><span class="fn fk">course_id</span><span class="ft">FK → COURSES</span></div>
+<div class="f"><span class="fn">title</span><span class="ft">varchar</span></div>
+<div class="f"><span class="fn">content</span><span class="ft">text</span></div>
+<div class="f"><span class="fn">order_index</span><span class="ft">int</span></div>
+<div class="f"><span class="fn">created_at</span><span class="ft">timestamp</span></div>
+</div>
+
+<!-- LESSON_PROGRESS -->
+<div id="LP" class="t" style="left:218px;top:448px">
+<div class="th">LESSON_PROGRESS</div>
+<div class="f"><span class="fn pk">id</span><span class="ft">uuid PK</span></div>
+<div class="f"><span class="fn fk">enrollment_id</span><span class="ft">FK → ENROLLMENTS</span></div>
+<div class="f"><span class="fn fk">lesson_id</span><span class="ft">FK → LESSONS</span></div>
+<div class="f"><span class="fn">completed</span><span class="ft">bool</span></div>
+<div class="f"><span class="fn">completed_at</span><span class="ft">timestamp null</span></div>
+<div class="f"><span class="fn" style="font-size:9px;color:var(--color-text-tertiary)">UNIQUE(enrollment_id, lesson_id)</span></div>
+</div>
+
+<!-- THREAD_MESSAGES -->
+<div id="TM" class="t" style="left:424px;top:448px">
+<div class="th">THREAD_MESSAGES</div>
+<div class="f"><span class="fn pk">id</span><span class="ft">uuid PK</span></div>
+<div class="f"><span class="fn fk">thread_id</span><span class="ft">FK → DISC_THREADS</span></div>
+<div class="f"><span class="fn fk">author_id</span><span class="ft">FK → USERS</span></div>
+<div class="f"><span class="fn">content</span><span class="ft">text</span></div>
+<div class="f"><span class="fn">created_at</span><span class="ft">timestamp</span></div>
+</div>
+
+<!-- NOTIFICATIONS -->
+<div id="NO" class="t" style="left:632px;top:448px">
+<div class="th">NOTIFICATIONS</div>
+<div class="f"><span class="fn pk">id</span><span class="ft">uuid PK</span></div>
+<div class="f"><span class="fn fk">user_id</span><span class="ft">FK → USERS</span></div>
+<div class="f"><span class="fn">type</span><span class="ft">enum</span></div>
+<div class="f"><span class="fn">message</span><span class="ft">varchar</span></div>
+<div class="f"><span class="fn">is_read</span><span class="ft">bool default false</span></div>
+<div class="f"><span class="fn">ref_id</span><span class="ft">uuid nullable</span></div>
+<div class="f"><span class="fn">ref_type</span><span class="ft">varchar nullable</span></div>
+<div class="f"><span class="fn">created_at</span><span class="ft">timestamp</span></div>
+</div>
+
+<!-- ASSIGNMENTS -->
+<div id="AS" class="t" style="left:16px;top:700px">
+<div class="th">ASSIGNMENTS</div>
+<div class="f"><span class="fn pk">id</span><span class="ft">uuid PK</span></div>
+<div class="f"><span class="fn fk">lesson_id</span><span class="ft">FK → LESSONS null</span></div>
+<div class="f"><span class="fn fk">course_id</span><span class="ft">FK → COURSES</span></div>
+<div class="f"><span class="fn">title</span><span class="ft">varchar</span></div>
+<div class="f"><span class="fn">description</span><span class="ft">text</span></div>
+<div class="f"><span class="fn">submission_type</span><span class="ft">enum(code,text,file)</span></div>
+<div class="f"><span class="fn">due_date</span><span class="ft">timestamp</span></div>
+</div>
+
+<!-- SUBMISSIONS -->
+<div id="SU" class="t" style="left:218px;top:700px">
+<div class="th">SUBMISSIONS</div>
+<div class="f"><span class="fn pk">id</span><span class="ft">uuid PK</span></div>
+<div class="f"><span class="fn fk">assignment_id</span><span class="ft">FK → ASSIGNMENTS</span></div>
+<div class="f"><span class="fn fk">student_id</span><span class="ft">FK → USERS</span></div>
+<div class="f"><span class="fn">content</span><span class="ft">text nullable</span></div>
+<div class="f"><span class="fn">file_url</span><span class="ft">varchar nullable</span></div>
+<div class="f"><span class="fn">status</span><span class="ft">enum(submitted,graded)</span></div>
+<div class="f"><span class="fn">grade</span><span class="ft">varchar nullable</span></div>
+<div class="f"><span class="fn">feedback</span><span class="ft">text nullable</span></div>
+<div class="f"><span class="fn fk">graded_by</span><span class="ft">FK → USERS null</span></div>
+<div class="f"><span class="fn">submitted_at</span><span class="ft">timestamp</span></div>
+<div class="f"><span class="fn">graded_at</span><span class="ft">timestamp null</span></div>
+</div>
+
+</div>
+<div class="leg">
+  <span>Arrow: FK → PK</span>
+  <span>Dashed arrow: nullable FK</span>
+  <span><span style="font-weight:500;text-decoration:underline;text-underline-offset:2px">underline</span> = PK</span>
+  <span><span style="font-style:italic;color:var(--color-text-secondary)">italic</span> = FK</span>
+</div>
+</div>
+
+<script>
+const CV = document.getElementById('cv');
+const SV = document.getElementById('sv');
+const DEFS = document.getElementById('defs');
+
+function ensureMarker(id, dash) {
+  if (document.getElementById(id)) return;
+  const m = document.createElementNS('http://www.w3.org/2000/svg','marker');
+  m.setAttribute('id', id);
+  m.setAttribute('viewBox','0 0 12 12');
+  m.setAttribute('refX','10');
+  m.setAttribute('refY','6');
+  m.setAttribute('markerWidth','7');
+  m.setAttribute('markerHeight','7');
+  m.setAttribute('orient','auto');
+  const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+  p.setAttribute('d','M2 2 L10 6 L2 10');
+  p.setAttribute('fill','none');
+  p.setAttribute('stroke', getComputedStyle(document.body).getPropertyValue('--color-text-primary').trim() || '#222');
+  p.setAttribute('stroke-width','2');
+  p.setAttribute('stroke-linecap','round');
+  p.setAttribute('stroke-linejoin','round');
+  m.appendChild(p);
+  DEFS.appendChild(m);
+}
+
+function box(id) {
+  const el = document.getElementById(id);
+  return {
+    l: el.offsetLeft, t: el.offsetTop,
+    r: el.offsetLeft + el.offsetWidth,
+    b: el.offsetTop + el.offsetHeight,
+    cx: el.offsetLeft + el.offsetWidth / 2,
+    cy: el.offsetTop + el.offsetHeight / 2,
+    w: el.offsetWidth, h: el.offsetHeight
+  };
+}
+
+function drawPath(d, dash) {
+  const mid = dash ? 'arrowDash' : 'arrowSolid';
+  ensureMarker(mid, dash);
+  const stroke = getComputedStyle(document.documentElement).getPropertyValue('--color-text-primary').trim() || '#1a1a1a';
+  const p = document.createElementNS('http://www.w3.org/2000/svg','path');
+  p.setAttribute('d', d);
+  p.setAttribute('fill','none');
+  p.setAttribute('stroke', stroke);
+  p.setAttribute('stroke-width','1.4');
+  p.setAttribute('opacity', dash ? '0.35' : '0.55');
+  if (dash) p.setAttribute('stroke-dasharray','5 3');
+  p.setAttribute('marker-end', `url(#${mid})`);
+  SV.appendChild(p);
+}
+
+function connect(fromId, toId, opts) {
+  opts = opts || {};
+  const f = box(fromId);
+  const t = box(toId);
+
+  const above   = f.b <= t.t + 4;
+  const below   = f.t >= t.b - 4;
+  const leftOf  = f.r <= t.l + 4;
+  const rightOf = f.l >= t.r - 4;
+
+  const ox = opts.ox || 0;
+  const oy = opts.oy || 0;
+  let d;
+
+  if (opts.route === 'above') {
+    const rY = Math.min(f.t, t.t) - (opts.clearY || 22);
+    const x1 = f.cx + ox, y1 = f.t;
+    const x2 = t.cx + oy, y2 = t.t;
+    d = `M${x1},${y1} L${x1},${rY} L${x2},${rY} L${x2},${y2}`;
+  } else if (above) {
+    const x1 = f.cx + ox, y1 = f.b;
+    const x2 = t.cx + oy, y2 = t.t;
+    const my = (y1 + y2) / 2;
+    d = `M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2}`;
+  } else if (below) {
+    const x1 = f.cx + ox, y1 = f.t;
+    const x2 = t.cx + oy, y2 = t.b;
+    const my = (y1 + y2) / 2;
+    d = `M${x1},${y1} C${x1},${my} ${x2},${my} ${x2},${y2}`;
+  } else if (leftOf) {
+    const x1 = f.r, y1 = f.cy + ox;
+    const x2 = t.l, y2 = t.cy + oy;
+    const mx = (x1 + x2) / 2;
+    d = `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`;
+  } else if (rightOf) {
+    const x1 = f.l, y1 = f.cy + ox;
+    const x2 = t.r, y2 = t.cy + oy;
+    const mx = (x1 + x2) / 2;
+    d = `M${x1},${y1} C${mx},${y1} ${mx},${y2} ${x2},${y2}`;
+  } else {
+    const x1 = f.cx + ox, y1 = f.t;
+    const x2 = t.cx + oy, y2 = t.b;
+    d = `M${x1},${y1} L${x2},${y2}`;
+  }
+  drawPath(d, opts.dash);
+}
+
+setTimeout(() => {
+  const lastEl = document.getElementById('SU');
+  const h = lastEl.offsetTop + lastEl.offsetHeight + 30;
+  CV.style.height = h + 'px';
+  SV.setAttribute('height', h);
+
+  // Re-create markers after font/color is resolved
+  ['arrowSolid','arrowDash'].forEach(id => {
+    const old = document.getElementById(id);
+    if (old) old.remove();
+  });
+
+  connect('CO','U',  {ox:-20, oy:-25});
+  connect('EN','U',  {ox:-10, oy:5});
+  connect('EN','CO', {ox:-10, oy:0});
+  connect('DT','U',  {ox:10,  oy:22});
+  connect('DT','CO', {route:'above', ox:10,  oy:-20, clearY:24});
+  connect('LS','U',  {ox:20,  oy:40});
+  connect('LS','CO', {route:'above', ox:30,  oy:20,  clearY:44});
+  connect('LE','CO', {ox:-20, oy:-20});
+  connect('LP','EN', {ox:-20, oy:-10});
+  connect('LP','LE', {ox:10,  oy:10});
+  connect('TM','DT', {ox:-15, oy:-15});
+  connect('TM','U',  {route:'above', ox:20,  oy:50,  clearY:260});
+  connect('NS','U',  {ox:-10, oy:10});
+  connect('NO','U',  {route:'above', ox:0,   oy:60,  clearY:290});
+  connect('AS','LE', {ox:-20, oy:-20});
+  connect('AS','CO', {route:'above', ox:20,  oy:20,  clearY:500});
+  connect('SU','AS', {ox:-15, oy:15});
+  connect('SU','U',  {route:'above', ox:10,  oy:80,  clearY:670});
+  connect('SU','U',  {route:'above', ox:30,  oy:95,  clearY:692, dash:true});
+}, 300);
+</script>

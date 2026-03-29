@@ -1,0 +1,391 @@
+
+<style>
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f7f9fc;
+  --color-background-info: #eef2ff;
+  --color-background-success: #ecfdf5;
+  --color-background-warning: #fffbeb;
+  --color-background-danger: #fef2f2;
+  --color-border-secondary: #e2e8f0;
+  --color-border-tertiary: #f1f5f9;
+  --color-border-info: #c7d2fe;
+  --color-border-warning: #fde68a;
+  --color-border-danger: #fecaca;
+  --color-border-success: #a7f3d0;
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-tertiary: #94a3b8;
+  --color-text-info: #4338ca;
+  --color-text-success: #059669;
+  --color-text-warning: #d97706;
+  --color-text-danger: #dc2626;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans)}
+.screen{display:none}
+.screen.active{display:block}
+.tab-bar{display:flex;gap:4px;flex-wrap:wrap;padding:12px 16px 0;border-bottom:0.5px solid var(--color-border-tertiary);background:var(--color-background-secondary)}
+.tab{font-size:12px;padding:6px 12px;border-radius:6px 6px 0 0;cursor:pointer;color:var(--color-text-secondary);background:transparent;border:0.5px solid transparent;white-space:nowrap}
+.tab.active{background:var(--color-background-primary);border-color:var(--color-border-tertiary);border-bottom-color:var(--color-background-primary);color:var(--color-text-primary);font-weight:500}
+.frame{padding:16px;background:var(--color-background-primary);min-height:440px}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;background:var(--color-background-secondary);border-radius:8px;margin-bottom:12px;border:0.5px solid var(--color-border-tertiary)}
+.logo{font-size:13px;font-weight:500;color:var(--color-text-primary)}
+.badge{font-size:11px;padding:2px 8px;border-radius:12px;background:var(--color-background-info);color:var(--color-text-info)}
+.badge-green{background:var(--color-background-success);color:var(--color-text-success)}
+.badge-warn{background:var(--color-background-warning);color:var(--color-text-warning)}
+.badge-danger{background:var(--color-background-danger);color:var(--color-text-danger)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px}
+.card-sec{background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:10px;padding:12px}
+.label{font-size:11px;color:var(--color-text-secondary);margin-bottom:4px}
+.val{font-size:20px;font-weight:500;color:var(--color-text-primary)}
+.section-title{font-size:12px;font-weight:500;color:var(--color-text-secondary);margin:12px 0 6px;text-transform:uppercase;letter-spacing:.5px}
+.row{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;border:0.5px solid var(--color-border-tertiary);margin-bottom:6px;background:var(--color-background-primary)}
+.row-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.ri-blue{background:var(--color-background-info)}
+.ri-green{background:var(--color-background-success)}
+.ri-purple{background:#EEEDFE}
+.ri-amber{background:var(--color-background-warning)}
+.row-title{font-size:13px;color:var(--color-text-primary);font-weight:500;flex:1}
+.row-sub{font-size:11px;color:var(--color-text-secondary)}
+.prog-wrap{height:5px;background:var(--color-background-secondary);border-radius:3px;margin-top:4px}
+.prog{height:5px;border-radius:3px;background:var(--color-text-info)}
+.sidebar-layout{display:grid;grid-template-columns:180px 1fr;gap:10px}
+.sidebar{background:var(--color-background-secondary);border-radius:10px;padding:10px;border:0.5px solid var(--color-border-tertiary)}
+.side-item{font-size:12px;padding:7px 10px;border-radius:6px;cursor:pointer;color:var(--color-text-secondary);margin-bottom:2px}
+.side-item.act{background:var(--color-background-primary);color:var(--color-text-primary);font-weight:500}
+.lesson-row{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:7px;margin-bottom:5px;background:var(--color-background-secondary)}
+.circle{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:500;flex-shrink:0}
+.c-done{background:var(--color-background-success);color:var(--color-text-success)}
+.c-curr{background:var(--color-background-info);color:var(--color-text-info)}
+.c-todo{background:var(--color-background-secondary);color:var(--color-text-tertiary);border:0.5px solid var(--color-border-tertiary)}
+.code-block{background:var(--color-background-secondary);border-radius:8px;padding:10px;font-family:var(--font-mono);font-size:11px;color:var(--color-text-secondary);margin:8px 0;border:0.5px solid var(--color-border-tertiary);line-height:1.6}
+.chat-msg{display:flex;gap:8px;margin-bottom:8px}
+.avatar{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0}
+.av-blue{background:var(--color-background-info);color:var(--color-text-info)}
+.av-green{background:var(--color-background-success);color:var(--color-text-success)}
+.av-purple{background:#EEEDFE;color:#534AB7}
+.bubble{background:var(--color-background-secondary);border-radius:0 8px 8px 8px;padding:8px 10px;font-size:12px;color:var(--color-text-primary);border:0.5px solid var(--color-border-tertiary);max-width:80%}
+.bubble-me{background:var(--color-background-info);color:var(--color-text-info);border-radius:8px 0 8px 8px;border-color:transparent}
+.input-bar{display:flex;gap:6px;margin-top:10px}
+.input-fake{flex:1;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:8px 10px;font-size:12px;color:var(--color-text-tertiary)}
+.btn-sm{font-size:11px;padding:6px 12px;border-radius:7px;background:var(--color-background-info);color:var(--color-text-info);border:none;cursor:pointer;font-weight:500}
+.notif-dot{width:7px;height:7px;border-radius:50%;background:#E24B4A;margin-left:auto}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:10px 0}
+.grade-box{display:flex;align-items:center;justify-content:center;width:52px;height:52px;border-radius:10px;font-size:22px;font-weight:500;background:var(--color-background-success);color:var(--color-text-success)}
+.feedback-box{background:var(--color-background-secondary);border-left:3px solid var(--color-border-info);border-radius:0 8px 8px 0;padding:10px;font-size:12px;color:var(--color-text-secondary);margin-top:8px}
+</style>
+
+<div class="tab-bar">
+  <div class="tab active" onclick="show('login')">Login / RBAC</div>
+  <div class="tab" onclick="show('student')">Student dashboard</div>
+  <div class="tab" onclick="show('course')">Course view</div>
+  <div class="tab" onclick="show('assignment')">Assignment</div>
+  <div class="tab" onclick="show('mentor')">Mentor dashboard</div>
+  <div class="tab" onclick="show('discussion')">Discussion / Q&A</div>
+  <div class="tab" onclick="show('notif')">Notifications</div>
+  <div class="tab" id="tab-authoring" onclick="show('authoring')" style="display:none">Authoring</div>
+</div>
+
+<!-- LOGIN -->
+<div id="screen-login" class="screen active frame">
+  <div style="max-width:340px;margin:20px auto">
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:18px;font-weight:500;color:var(--color-text-primary)">CodeMentor</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-top:4px">Beginner programming platform</div>
+    </div>
+    <div class="card" style="padding:20px">
+      <div class="label" style="margin-bottom:6px">Email address</div>
+      <div style="background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:9px 12px;font-size:13px;color:var(--color-text-tertiary);margin-bottom:10px">you@example.com</div>
+      <div class="label" style="margin-bottom:6px">Password</div>
+      <div style="background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:9px 12px;font-size:13px;color:var(--color-text-tertiary);margin-bottom:16px">••••••••</div>
+      <div style="display:flex;gap:8px;margin-bottom:16px">
+        <div id="role-student" onclick="selectRole('student')" style="flex:1;border:2px solid var(--color-border-info);background:var(--color-background-info);border-radius:8px;padding:10px;text-align:center;cursor:pointer">
+          <div style="font-size:15px;margin-bottom:3px">🎓</div>
+          <div style="font-size:12px;font-weight:500;color:var(--color-text-info)">Student</div>
+          <div style="font-size:10px;color:var(--color-text-secondary);margin-top:2px">Learn & submit</div>
+        </div>
+        <div id="role-mentor" onclick="selectRole('mentor')" style="flex:1;border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:10px;text-align:center;cursor:pointer;background:var(--color-background-secondary)">
+          <div style="font-size:15px;margin-bottom:3px">👩‍💻</div>
+          <div style="font-size:12px;font-weight:500;color:var(--color-text-secondary)">Mentor</div>
+          <div style="font-size:10px;color:var(--color-text-secondary);margin-top:2px">Review & grade</div>
+        </div>
+      </div>
+      <div style="background:var(--color-text-primary);color:var(--color-background-primary);border-radius:8px;padding:10px;text-align:center;font-size:13px;font-weight:500;cursor:pointer">Sign in</div>
+    </div>
+    <div style="text-align:center;margin-top:10px;font-size:11px;color:var(--color-text-secondary)">RBAC — role determines dashboard and permissions</div>
+  </div>
+</div>
+
+<!-- STUDENT DASHBOARD -->
+<div id="screen-student" class="screen frame">
+  <div class="topbar">
+    <span class="logo">CodeMentor</span>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="badge">Student</span>
+      <div class="avatar av-blue" style="width:26px;height:26px;font-size:10px">AL</div>
+    </div>
+  </div>
+  <div class="grid3" style="margin-bottom:12px">
+    <div class="card-sec"><div class="label">Courses enrolled</div><div class="val">4</div></div>
+    <div class="card-sec"><div class="label">Lessons completed</div><div class="val">27</div></div>
+    <div class="card-sec"><div class="label">Assignments graded</div><div class="val">9</div></div>
+  </div>
+  <div class="grid2">
+    <div>
+      <div class="section-title">My courses</div>
+      <div class="row"><div class="row-icon ri-blue">🐍</div><div style="flex:1"><div class="row-title">Python basics</div><div class="prog-wrap"><div class="prog" style="width:72%"></div></div><div class="row-sub" style="margin-top:3px">72% complete</div></div><span class="badge">Beginner</span></div>
+      <div class="row"><div class="row-icon ri-purple">☕</div><div style="flex:1"><div class="row-title">Java fundamentals</div><div class="prog-wrap"><div class="prog" style="width:38%;background:#7F77DD"></div></div><div class="row-sub" style="margin-top:3px">38% complete</div></div><span class="badge" style="background:#EEEDFE;color:#534AB7">Intermediate</span></div>
+      <div class="row"><div class="row-icon ri-green">🌐</div><div style="flex:1"><div class="row-title">HTML & CSS</div><div class="prog-wrap"><div class="prog" style="width:90%;background:#3B6D11"></div></div><div class="row-sub" style="margin-top:3px">90% complete</div></div><span class="badge badge-green">Beginner</span></div>
+    </div>
+    <div>
+      <div class="section-title">Upcoming</div>
+      <div class="row"><div class="row-icon ri-amber">📅</div><div><div class="row-title">Live session — Python</div><div class="row-sub">Tomorrow, 3:00 PM</div></div><span class="badge badge-warn">Soon</span></div>
+      <div class="row"><div class="row-icon ri-blue">📝</div><div><div class="row-title">Assignment #4 due</div><div class="row-sub">In 2 days</div></div><span class="badge badge-danger">Due soon</span></div>
+      <div class="section-title">Recent feedback</div>
+      <div class="row" style="align-items:flex-start"><div class="grade-box" style="width:36px;height:36px;font-size:16px">A</div><div style="margin-left:4px"><div class="row-title">Assignment #3 graded</div><div class="row-sub">Python basics · "Great logic!"</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- COURSE VIEW -->
+<div id="screen-course" class="screen frame">
+  <div class="topbar">
+    <span class="logo">🐍 Python basics</span>
+    <span class="badge">72% complete</span>
+  </div>
+  <div class="sidebar-layout">
+    <div class="sidebar">
+      <div class="section-title" style="margin-top:0">Modules</div>
+      <div class="side-item act">1. Variables & types</div>
+      <div class="side-item">2. Control flow</div>
+      <div class="side-item">3. Functions</div>
+      <div class="side-item">4. Lists & dicts</div>
+      <div class="side-item" style="color:var(--color-text-tertiary)">5. OOP ·locked</div>
+      <div class="divider"></div>
+      <div class="side-item">💬 Q&A forum</div>
+      <div class="side-item">📝 Assignments</div>
+    </div>
+    <div>
+      <div style="font-size:14px;font-weight:500;margin-bottom:6px">Lesson 3 — Functions</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.7;margin-bottom:8px">Functions let you package reusable logic. Define once, call many times. A function takes inputs (parameters) and returns an output.</div>
+      <div class="code-block">def greet(name):<br>&nbsp;&nbsp;&nbsp;&nbsp;return f"Hello, {name}!"<br><br>print(greet("Ada"))  # Hello, Ada!</div>
+      <div class="section-title">Lesson progress</div>
+      <div class="lesson-row"><div class="circle c-done">✓</div><div style="font-size:12px;color:var(--color-text-secondary)">Lesson 1 — Variables</div></div>
+      <div class="lesson-row"><div class="circle c-done">✓</div><div style="font-size:12px;color:var(--color-text-secondary)">Lesson 2 — Control flow</div></div>
+      <div class="lesson-row" style="background:var(--color-background-info)"><div class="circle c-curr">3</div><div style="font-size:12px;font-weight:500;color:var(--color-text-info)">Lesson 3 — Functions (current)</div></div>
+      <div class="lesson-row"><div class="circle c-todo">4</div><div style="font-size:12px;color:var(--color-text-tertiary)">Lesson 4 — Lists & dicts</div></div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <div style="flex:1;border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:8px;text-align:center;font-size:12px;cursor:pointer;color:var(--color-text-secondary)">← Previous</div>
+        <div style="flex:1;background:var(--color-background-info);border-radius:8px;padding:8px;text-align:center;font-size:12px;cursor:pointer;color:var(--color-text-info);font-weight:500">Mark complete & next →</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ASSIGNMENT -->
+<div id="screen-assignment" class="screen frame">
+  <div class="topbar">
+    <span class="logo">📝 Assignment #4 — Functions</span>
+    <span class="badge badge-danger">Due in 2 days</span>
+  </div>
+  <div class="grid2">
+    <div>
+      <div class="section-title" style="margin-top:0">Brief</div>
+      <div class="card-sec" style="font-size:12px;color:var(--color-text-secondary);line-height:1.7;margin-bottom:10px">Write a Python function called <code style="background:var(--color-background-primary);border-radius:4px;padding:1px 5px;font-size:11px">calculator(a, b, op)</code> that accepts two numbers and an operation string (+, -, *, /) and returns the result. Handle division by zero gracefully.</div>
+      <div class="section-title">Submission type</div>
+      <div style="display:flex;gap:6px;margin-bottom:10px">
+        <div style="border:2px solid var(--color-border-info);background:var(--color-background-info);border-radius:7px;padding:6px 14px;font-size:12px;color:var(--color-text-info);font-weight:500;cursor:pointer">Code</div>
+        <div style="border:0.5px solid var(--color-border-tertiary);border-radius:7px;padding:6px 14px;font-size:12px;color:var(--color-text-secondary);cursor:pointer">Text</div>
+        <div style="border:0.5px solid var(--color-border-tertiary);border-radius:7px;padding:6px 14px;font-size:12px;color:var(--color-text-secondary);cursor:pointer">File upload</div>
+      </div>
+      <div class="code-block" style="min-height:90px;color:var(--color-text-primary)">def calculator(a, b, op):<br>&nbsp;&nbsp;&nbsp;&nbsp;if op == '+':<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return a + b<br>&nbsp;&nbsp;&nbsp;&nbsp;# ...</div>
+      <div style="background:var(--color-text-primary);color:var(--color-background-primary);border-radius:8px;padding:9px;text-align:center;font-size:13px;font-weight:500;margin-top:10px;cursor:pointer">Submit assignment</div>
+    </div>
+    <div>
+      <div class="section-title" style="margin-top:0">Previous submission — graded</div>
+      <div class="card" style="margin-bottom:10px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <div class="grade-box">A−</div>
+          <div><div style="font-size:13px;font-weight:500">Assignment #3</div><div style="font-size:11px;color:var(--color-text-secondary)">Graded by Sarah M. · 2 days ago</div></div>
+        </div>
+        <div class="feedback-box">Your loop logic is solid. Try to use list comprehensions for cleaner iteration — e.g. <code style="font-size:10px">[x*2 for x in nums]</code> instead of appending in a loop.</div>
+      </div>
+      <div class="section-title">Submission history</div>
+      <div class="row"><div style="flex:1"><div class="row-title">Assignment #2</div><div class="row-sub">Submitted 5 days ago</div></div><span class="badge badge-green">B+</span></div>
+      <div class="row"><div style="flex:1"><div class="row-title">Assignment #1</div><div class="row-sub">Submitted 10 days ago</div></div><span class="badge badge-green">A</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- MENTOR DASHBOARD -->
+<div id="screen-mentor" class="screen frame">
+  <div class="topbar">
+    <span class="logo">CodeMentor</span>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="badge" style="background:#EEEDFE;color:#534AB7">Mentor</span>
+      <div class="avatar av-purple" style="width:26px;height:26px;font-size:10px">SM</div>
+    </div>
+  </div>
+  <div class="grid3" style="margin-bottom:12px">
+    <div class="card-sec"><div class="label">Active students</div><div class="val">18</div></div>
+    <div class="card-sec"><div class="label">Pending reviews</div><div class="val" style="color:var(--color-text-warning)">7</div></div>
+    <div class="card-sec"><div class="label">Classes managed</div><div class="val">3</div></div>
+  </div>
+  <div class="grid2">
+    <div>
+      <div class="section-title">Submissions to review</div>
+      <div class="row" style="align-items:flex-start;flex-direction:column;gap:4px">
+        <div style="display:flex;align-items:center;gap:8px;width:100%"><div class="avatar av-blue" style="width:22px;height:22px;font-size:9px">AL</div><div class="row-title">Alex L. — Assgmt #4</div><span class="badge badge-warn">Pending</span></div>
+        <div class="row-sub" style="margin-left:30px">Python basics · Functions · Submitted 1h ago</div>
+        <div class="code-block" style="width:100%;margin:4px 0 0">def calculator(a, b, op):<br>&nbsp;&nbsp;&nbsp;&nbsp;...</div>
+        <div style="display:flex;gap:6px;width:100%">
+          <input style="flex:1;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:7px;padding:6px 10px;font-size:11px;color:var(--color-text-tertiary)" placeholder="Grade (A–F)…" readonly>
+          <div class="btn-sm">Add feedback</div>
+        </div>
+      </div>
+      <div class="row"><div class="avatar av-green" style="width:22px;height:22px;font-size:9px">JK</div><div style="flex:1;margin-left:4px"><div class="row-title">Jamie K. — Assgmt #2</div><div class="row-sub">HTML & CSS · 3h ago</div></div><span class="badge badge-warn">Pending</span></div>
+      <div class="row"><div class="avatar" style="width:22px;height:22px;font-size:9px;background:var(--color-background-danger);color:var(--color-text-danger)">RN</div><div style="flex:1;margin-left:4px"><div class="row-title">Rina N. — Assgmt #1</div><div class="row-sub">Java fundamentals · 1d ago</div></div><span class="badge badge-danger">Overdue</span></div>
+    </div>
+    <div>
+      <div class="section-title">My classes</div>
+      <div class="row"><div class="row-icon ri-blue">🐍</div><div style="flex:1"><div class="row-title">Python basics</div><div class="row-sub">8 students · 3 pending</div></div><span class="badge badge-green">Active</span></div>
+      <div class="row"><div class="row-icon ri-green">🌐</div><div style="flex:1"><div class="row-title">HTML & CSS</div><div class="row-sub">6 students · 2 pending</div></div><span class="badge badge-green">Active</span></div>
+      <div class="row"><div class="row-icon ri-purple">☕</div><div style="flex:1"><div class="row-title">Java fundamentals</div><div class="row-sub">4 students · 2 pending</div></div><span class="badge badge-green">Active</span></div>
+      <div class="section-title">Next live session</div>
+      <div class="card-sec" style="text-align:center;padding:14px">
+        <div style="font-size:12px;color:var(--color-text-secondary)">Python basics</div>
+        <div style="font-size:16px;font-weight:500;margin:4px 0">Tomorrow, 3:00 PM</div>
+        <div class="btn-sm" style="display:inline-block;margin-top:6px">Copy join link</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- DISCUSSION -->
+<div id="screen-discussion" class="screen frame">
+  <div class="topbar">
+    <span class="logo">💬 Python basics — Q&A</span>
+    <span class="badge">14 threads</span>
+  </div>
+  <div class="grid2">
+    <div>
+      <div class="section-title" style="margin-top:0">Threads</div>
+      <div class="row act" style="border-color:var(--color-border-info);background:var(--color-background-info)">
+        <div style="flex:1"><div class="row-title" style="color:var(--color-text-info)">Why does my loop run twice?</div><div class="row-sub">Alex L. · 2h ago · 3 replies</div></div>
+        <span class="badge">Open</span>
+      </div>
+      <div class="row"><div style="flex:1"><div class="row-title">Difference between list and tuple</div><div class="row-sub">Jamie K. · 1d ago · 5 replies</div></div><span class="badge badge-green">Resolved</span></div>
+      <div class="row"><div style="flex:1"><div class="row-title">How to handle file I/O?</div><div class="row-sub">Rina N. · 2d ago · 2 replies</div></div><span class="badge badge-green">Resolved</span></div>
+      <div style="border:0.5px dashed var(--color-border-tertiary);border-radius:8px;padding:10px;text-align:center;margin-top:8px;cursor:pointer">
+        <div style="font-size:12px;color:var(--color-text-secondary)">+ New question</div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:13px;font-weight:500;margin-bottom:8px">Why does my loop run twice?</div>
+      <div style="background:var(--color-background-secondary);border-radius:10px;padding:10px;height:220px;overflow-y:auto;border:0.5px solid var(--color-border-tertiary)">
+        <div class="chat-msg"><div class="avatar av-blue">AL</div><div><div style="font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px">Alex · 2h ago</div><div class="bubble">My for loop seems to run twice — here's my code…<br><code style="font-size:10px">for i in range(5):<br>&nbsp;&nbsp;print(i)<br>&nbsp;&nbsp;print(i)</code></div></div></div>
+        <div class="chat-msg" style="flex-direction:row-reverse"><div class="avatar av-purple">SM</div><div><div style="font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px;text-align:right">Sarah (mentor) · 1h ago</div><div class="bubble bubble-me">You have two print() calls inside the loop! Each iteration prints i twice. Remove the second one.</div></div></div>
+        <div class="chat-msg"><div class="avatar av-blue">AL</div><div><div style="font-size:10px;color:var(--color-text-tertiary);margin-bottom:3px">Alex · 45m ago</div><div class="bubble">Oh! I see it now, thank you so much 😊</div></div></div>
+      </div>
+      <div class="input-bar">
+        <div class="input-fake">Reply to this thread…</div>
+        <div class="btn-sm">Send</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTIFICATIONS -->
+<div id="screen-notif" class="screen frame">
+  <div class="topbar"><span class="logo">🔔 Notifications</span><span class="badge badge-danger">4 new</span></div>
+  <div class="grid2">
+    <div>
+      <div class="section-title" style="margin-top:0">New</div>
+      <div class="row" style="border-left:3px solid var(--color-border-warning)"><div class="row-icon ri-amber">📅</div><div style="flex:1"><div class="row-title">Live session in 24h</div><div class="row-sub">Python basics · Tomorrow 3:00 PM</div></div><div class="notif-dot"></div></div>
+      <div class="row" style="border-left:3px solid var(--color-border-danger)"><div class="row-icon ri-blue">📝</div><div style="flex:1"><div class="row-title">Assignment #4 due soon</div><div class="row-sub">Functions · Due in 2 days</div></div><div class="notif-dot"></div></div>
+      <div class="row" style="border-left:3px solid var(--color-border-success)"><div class="row-icon ri-green">✅</div><div style="flex:1"><div class="row-title">Assignment #3 graded</div><div class="row-sub">Grade: A− · Feedback available</div></div><div class="notif-dot"></div></div>
+      <div class="row" style="border-left:3px solid var(--color-border-info)"><div class="row-icon ri-blue">💬</div><div style="flex:1"><div class="row-title">Mentor replied to your thread</div><div class="row-sub">Python Q&A · 1h ago</div></div><div class="notif-dot"></div></div>
+      <div class="section-title">Earlier</div>
+      <div class="row"><div class="row-icon ri-purple">🎓</div><div style="flex:1"><div class="row-title">Lesson 2 marked complete</div><div class="row-sub">Python basics · 2 days ago</div></div></div>
+      <div class="row"><div class="row-icon ri-green">📋</div><div style="flex:1"><div class="row-title">Enrolled in Java fundamentals</div><div class="row-sub">4 days ago</div></div></div>
+    </div>
+    <div>
+      <div class="section-title" style="margin-top:0">Notification settings</div>
+      <div class="card-sec" style="padding:14px">
+        <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:12px">Choose when you get notified</div>
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px"><span>Assignment due reminders</span><span class="badge badge-green">On</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px"><span>Live session reminders</span><span class="badge badge-green">On</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px"><span>Grade & feedback alerts</span><span class="badge badge-green">On</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px"><span>Q&A thread replies</span><span class="badge badge-green">On</span></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;font-size:12px"><span>Email digest</span><span class="badge">Off</span></div>
+        </div>
+      </div>
+      <div class="section-title">Notification type</div>
+      <div class="card-sec" style="font-size:12px;color:var(--color-text-secondary);line-height:1.8">
+        <b style="font-weight:500;color:var(--color-text-primary)">System-triggered</b> — auto-fired by backend engine on grade, enrollment, or session events.<br>
+        <b style="font-weight:500;color:var(--color-text-primary)">Scheduled</b> — cron job checks upcoming sessions and assignment deadlines daily.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AUTHORING -->
+<div id="screen-authoring" class="screen frame">
+  <div class="topbar">
+    <span class="logo">Draft New Course</span>
+    <span class="badge" style="background:#EEEDFE;color:#534AB7">Mentor</span>
+  </div>
+  <div class="grid2">
+    <div>
+      <div class="section-title" style="margin-top:0">Course Details</div>
+      <div class="label" style="margin-bottom:6px">Course Title</div>
+      <input type="text" style="width:100%;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:9px 12px;font-size:13px;color:var(--color-text-primary);margin-bottom:10px" value="JavaScript Basics">
+      <div class="label" style="margin-bottom:6px">Language & Difficulty</div>
+      <div style="display:flex;gap:10px;margin-bottom:16px">
+        <select style="flex:1;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:9px;font-size:13px;color:var(--color-text-primary)"><option>JavaScript</option><option>Python</option></select>
+        <select style="flex:1;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:8px;padding:9px;font-size:13px;color:var(--color-text-primary)"><option>Beginner</option><option>Intermediate</option></select>
+      </div>
+      <div style="background:var(--color-text-primary);color:var(--color-background-primary);border-radius:8px;padding:10px;text-align:center;font-size:13px;font-weight:500;cursor:pointer">Save Draft</div>
+    </div>
+    <div>
+      <div class="section-title" style="margin-top:0">Curriculum</div>
+      <div class="card" style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-size:13px;font-weight:500">Module 1: Variables</div>
+          <div class="btn-sm" style="background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary)">Edit</div>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:10px;cursor:pointer">
+         <div style="font-size:13px;font-weight:500;color:var(--color-text-tertiary)">+ Add Module</div>
+      </div>
+      <div class="section-title">Assignments</div>
+      <div class="card-sec" style="text-align:center;padding:14px;cursor:pointer">
+        <div style="font-size:12px;font-weight:500;color:var(--color-text-secondary)">+ Create Assignment</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+function selectRole(r){
+  ['student','mentor'].forEach(x=>{
+    const el=document.getElementById('role-'+x);
+    if(x===r){el.style.border='2px solid var(--color-border-info)';el.style.background='var(--color-background-info)';el.querySelector('div:nth-child(2)').style.color='var(--color-text-info)'}
+    else{el.style.border='0.5px solid var(--color-border-tertiary)';el.style.background='var(--color-background-secondary)';el.querySelector('div:nth-child(2)').style.color='var(--color-text-secondary)'}
+  });
+  const authTab = document.getElementById('tab-authoring');
+  if (authTab) authTab.style.display = r === 'mentor' ? 'block' : 'none';
+}
+</script>
